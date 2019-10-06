@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script>
+ window.onload =function (){
+  
+  var rb = document.getElementById("registrationButton");
+  rb.onclick = function(){
+window.location.href = "/reg";
+  };
+   var xhr = new XMLHttpRequest();
+   xhr.open('GET','/all');
+   xhr.send();
+   xhr.onload = function() {
+     document.getElementById("container").innerHTML = this.responseText;
+   }
+   
+   var loginbtn = document.getElementById("loginbtn");
+   loginbtn.addEventListener('click',function(){
+     var xhr = new XMLHttpRequest();
+     xhr.open('POST','/login');
+     var userData = {
+       login: document.getElementById("loginInput").value,
+       password: document.getElementById("passwordInput").value
+     };
+     xhr.setRequestHeader('Content-Type','application/json'); 
+     xhr.send(JSON.stringify(userData));
+     xhr.onload = function(){
+       alert(this.responseText);
+     };
+     xhr.onerror = function(){
+       alert("server error!");
+     };
+    });
+
+    var logoutbtn = document.getElementById("logoutbtn");
+    logoutbtn.addEventListener('click',function(){
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET','/logout');
+      xhr.send();
+      xhr.onload = function(){
+       alert(this.responseText);
+     };
+     xhr.onerror = function(){
+       alert("server error!");
+     };
+    })
+     var greet = document.getElementById('greet');
+     greet.onclick = function(){
+       var xhr = new XMLHttpRequest();
+       xhr.open('GET',"/check");
+       xhr.send();
+       xhr.onload = function(){
+      document.getElementById("greeting").innerHTML = this.responseText;
+     };
+     xhr.onerror = function(){
+      document.getElementById("greeting").innerHTML = "error";
+     };
+     }
+    
+ 
+    var mode = document.querySelector(".btns");
+    mode.onclick = function (e){
+      if(!e.target.dataset.page) return false;
+      var target = e.target.dataset.page;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET","/" + target );
+      xhr.send();
+      xhr.onload = function(){
+      window.location.href="/" + target
+     }
+     xhr.onerror = function(){
+       alert("server error!");
+     };
+    }
+ };
+
+ </script>
+ </head>
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 mr-md-auto font-weight-normal">University Messenger</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 text-dark" href="#">Features</a>
+          <a class="p-2 text-dark" href="#">Enterprise</a>
+          <a class="p-2 text-dark" href="#">Support</a>
+          <a class="p-2 text-dark" href="#">Pricing</a>
+        </nav>
+        <a class="btn btn-outline-primary" href="#">Sign up</a>
+      </div> 
+      <h4 class="my-5 text-center">Hi, whats up?)</h4>
+      <div class="d-flex align-items-center justify-content-center h-100" >
+      <form class="py-2 text-center col-5 ">
+        <div class="form-group ">
+          <label for="loginInput">Email address</label>
+          <input type="email" class="form-control" id="loginInput" aria-describedby="emailHelp" placeholder="Enter email">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="passwordInput">Password</label>
+          <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+        </div>
+        <div class="form-group form-check">
+            <button type="button " id ="loginbtn" class="btn btn-primary">Log In</button>
+            <button type="button " id ="logoutbtn" class="btn btn-primary">Log Out</button>
+            <button type="button"  id ="registrationButton"class="btn btn-primary">Registration</button>
+        </div>
+        <div class="panel btns">
+          <h2>Mode</h2>
+          <button data-page="admin" type="button " id ="loginbtn" class="btn btn-primary">admin</button>
+          <button data-page="user" type="button " id ="loginbtn" class="btn btn-primary">user</button>
+          <button data-page="guest" type="button " id ="loginbtn" class="btn btn-primary">guest</button>
+        </div>
+        <div class="panel">
+          <h1>Registered users: </h1>
+          <div id='container'></div>
+        </div>
+        <div class="panel">
+          <button class = 'btn btn-lg btn-success' id="greet">Greet user!</button>
+       <h2 id='greeting'></h2>
+        </div>
+      </form>
+      </div>
+</body>
+</html>

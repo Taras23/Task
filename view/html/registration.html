@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script>
+window.onload = function(){
+    var btn = document.getElementById('btn');
+    var loginPage = document.getElementById('loginPage');
+    loginPage.onclick = function(){
+        window.location.href='/auth';
+    };
+    btn.onclick = function(){
+        if (document.getElementById('loginInput').value.length == 0 ||
+            document.getElementById('passwordInput').value.length == 0){
+                alert('Invalid data in form!');
+                return false;
+            }
+        var data = {
+            login: document.getElementById('loginInput').value,
+            password: document.getElementById('passwordInput').value
+        }
+              var xhr = new XMLHttpRequest();
+              xhr.open('POST','/signup');
+              xhr.setRequestHeader('Content-Type','application/json');
+              xhr.send(JSON.stringify(data));
+              xhr.onload = function() {
+                  alert('user successfully created!');
+                  window.location.href = '/auth';
+              }
+              xhr.onerror = function() {
+                  alert('Could not create user!');
+              }
+    }
+}
+</script>
+</head>
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 mr-md-auto font-weight-normal">University Messenger</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 text-dark" href="#">Features</a>
+          <a class="p-2 text-dark" href="#">Enterprise</a>
+          <a class="p-2 text-dark" href="#">Support</a>
+          <a class="p-2 text-dark" href="#">Pricing</a>
+        </nav>
+        <a class="btn btn-outline-primary" href="#">Sign up</a>
+      </div>
+
+      <h4 class="my-5 text-center">Registration</h4>
+      <div class="d-flex align-items-center justify-content-center h-100" >
+      <form class="py-2 text-center col-5 ">
+        <div class="form-group ">
+          <label for="loginInput">Email address</label>
+          <input type="email" class="form-control" id="loginInput" aria-describedby="emailHelp" placeholder="Enter email">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="passwordInput">Password</label>
+          <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+        </div>
+        <div class="form-group form-check">
+            <button id="btn" type="button" class="btn btn-primary">Do it</button>
+            <form method="get" action="/login">
+            <button id="loginPage" type="button"  class="btn btn-primary">Login page</button>
+        </form>
+        
+        </div>
+      </form>
+      
+      
+</body>
+</html>
